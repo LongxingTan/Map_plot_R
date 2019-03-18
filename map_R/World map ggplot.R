@@ -26,9 +26,9 @@ theme_map <- list(theme(panel.grid.minor = element_blank(),
  panel.background = element_blank(),
  plot.background = element_blank()))
 
-p<-ggplot(Worlddata, aes(x = long, y = lat, group = group,fill =Failures)) +geom_polygon(colour="grey")
+p<-ggplot(Worlddata, aes(x = long, y = lat, group = group,fill =Failures)) +geom_polygon(color = 'black',size=0.1,alpha=0.1)
 p<-p+scale_fill_brewer(palette="YlOrRd")+theme_map
-p
+p<-p+theme(legend.position='none')
 ggsave("./outputs/World map ggplot.png", p, height=4.8, width=9.5)
 
 #unique(world_map_data$NAME)
