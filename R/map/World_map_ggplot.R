@@ -9,7 +9,7 @@ xs <- data.frame(x,id=seq(0:238)-1)
 world_map1 <- fortify(world_map)
 world_map_data <- join(world_map1, xs, type = "full")
 
-Mydata<-read.csv("./data/map_R_country.csv",sep=';',header=T)
+Mydata<-read.csv("./data/map_R_country.csv",sep=',',header=T)
 names(Mydata)<-c("NAME","Failures")
 #replace USA to United States
 Worlddata=join(Mydata, world_map_data, type = "full")

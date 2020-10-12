@@ -1,11 +1,11 @@
-setwd('C:/Users/longtan/Desktop/00-Code/Visualization')
+#setwd('C:/Users/longtan/Desktop/00-Code/Visualization')
 library(ggplot2)
 library(maptools)
 library(geosphere)
 library(plyr)
 
 #Sales data import and pro-processing
-MBsales<-read.csv("./data/map_R_circle.csv",sep=';',header=T)
+MBsales<-read.csv("../../data/map_R_circle.csv",sep=';',header=T)
 MBsales2016<-MBsales[MBsales$Year==2016,]
 Csales2016<-MBsales[MBsales$Model=="C CLASS SEDAN"& MBsales$Year==2016 & MBsales$CBU.PbP=="PBP",]
 Csales2016<-data.frame(Csales2016)
@@ -19,10 +19,11 @@ Sales$City<-gsub("Liuzhou City","Liuzhou",Sales$City)
 Sales$City<-gsub("Foshan Nanhai","Foshan",Sales$City)
 Sales$City<-gsub("Foshan Shunde","Foshan",Sales$City)
 Sales$City<-toupper(Sales$City)
+
 #China CityGeocode data import
-Citygeocode<-read.csv("./data/city_geocode_lookup.csv",sep=';',header=T)
+Citygeocode<-read.csv("../../assets/city_geocode_lookup.csv",sep=',',header=T)
 Citygeocode$City<-toupper(Citygeocode$City)
-#selected<-toupper(c("Beijing", "Shanghai", "Guangzhou",?"Foshan", "Xi¡¯an", "Chengdu", "Suzhou", "Dalian"))
+#selected<-toupper(c("Beijing", "Shanghai", "Guangzhou",?"Foshan", "Xiï¿½ï¿½an", "Chengdu", "Suzhou", "Dalian"))
 #selected<-Citygeocode[Citygeocode$City %in% selected,]
 
 Sales<-merge(Sales,Citygeocode,by.x='City',by.y='City',all.x=TRUE)
@@ -36,7 +37,7 @@ fortifiedroutes = fortify.SpatialLinesDataFrame(routes)
 
 greatcircles = merge(fortifiedroutes, Sales, all.x=T, by="id")
 
-ChinaProvince<-readShapePoly("./data/province.shp")
+ChinaProvince<-readShapePoly("../../assets/province.shp")
 Chinamap <- fortify(ChinaProvince)
 
 theme_map <- list(theme(panel.grid.minor = element_blank(),
@@ -52,9 +53,10 @@ theme_map <- list(theme(panel.grid.minor = element_blank(),
  plot.background = element_blank()))
 
 p1<-ggplot(Sales)+
- geom_path(aes(x = long, y = lat, group = id),size=0.15,data=Chinamap)+
- geom_line(aes(long,lat,group=id),data=greatcircles,color='grey',alpha=0.25,size=0.15)+
+ geom_path(aes(x = long, y = lat, group = id), size=0.2, data=Chinamap)+
+ geom_line(aes(long,lat,group=id), data=greatcircles, color='grey', alpha=0.25, size=0.15)+
  geom_point(aes(Lon,Lat,group=id,alpha=Sales,size=Sales),color="red")+scale_size(range = c(0, 4))+
  geom_text(aes(Lon,Lat,label=City),data=Sales[1:5,],hjust =-0.4,check_overlap = TRUE,size=2.5)+
  scale_alpha_continuous(range = c(0.25, 0.8))+coord_map()+ylim(14,55)+theme_map
-ggsave("./outputs/China map great cicle.png", p1, height=4.8, width=9.5)
+
+ggsave("../../assets/images/China map great circle.png", p1, height=4.8, width=9.5)

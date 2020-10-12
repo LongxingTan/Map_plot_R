@@ -2,6 +2,7 @@ from moviepy.editor import *
 import os
 import cv2
 
+
 class Clips_maker(object):
     def __init__(self):
         pass
@@ -43,6 +44,7 @@ class Clips_maker(object):
         clip7 = VideoFileClip('./video/51.MOV', audio=False).fx(vfx.resize, (831, 1109)).crop(11, 0, 821, 1080).fx(vfx.speedx, 0.5)
         clip7=clip7.subclip(1,4)
         clip7.write_videofile("./clips/7.mp4")
+
 
 class video_maker(object):
     def __init__(self):
