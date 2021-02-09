@@ -15,7 +15,7 @@ matplotlib.rc('axes', facecolor='white')
 
 def geo_china(df, size_column='size', title='map'):
     china_geod = gp.GeoDataFrame.from_file("../../assets/province.shp", encoding='gb18030')
-    print(china_geod.head(5), china_geod.columns)
+    # print(china_geod.iloc[0:5, -3:], china_geod.columns)
 
     ax = china_geod.plot(color='white', edgecolor='black')
 
@@ -32,9 +32,9 @@ if __name__ == '__main__':
     city_name_map = pd.read_csv(open("../../assets/city_geocode_lookup.csv", encoding='gbk'))
 
     data_agg = data_agg.merge(city_name_map, left_on='City', right_on='City', how='left')
-    print(data_agg)
+    # print(data_agg)
 
     geo_data_agg = gp.GeoDataFrame(data_agg, geometry=gp.points_from_xy(data_agg.Lon, data_agg.Lat))
-    print(geo_data_agg)
+    # print(geo_data_agg)
 
     geo_china(geo_data_agg, size_column='size')

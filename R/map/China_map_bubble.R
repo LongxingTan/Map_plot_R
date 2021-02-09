@@ -18,7 +18,7 @@ Da<-merge(Data_agg,City_code,by.x='City',by.y='City')
 province<-readShapePoly("../../assets/province.shp")
 chinamap<-fortify(province)
 provincedata<-data.frame(province@data,id=seq(0:924)-1)
-china_mapdata<-join(chinamap,provincedata, type = "full")
+china_mapdata<-join(chinamap, provincedata, type = "full")
 
 #plot
 p1<-ggplot(data = chinamap) + geom_path(aes(x = long, y = lat, group = id),size=0.2, colour="black")+coord_map(ylim = c(14,55))
